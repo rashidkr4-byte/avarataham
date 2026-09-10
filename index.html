@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>HQ Cloud - AI Model API Gateway</title>
-    <link rel="icon" type="image/png" href="/logo.png">
-    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/png" href="./logo.png">
+    <link rel="stylesheet" href="./style.css">
     <style>
         .profile-dropdown { position: relative; display: inline-block; }
         .profile-btn { background: var(--card-bg); border: 1px solid var(--border-color); color: var(--text-main); padding: 9px 16px; border-radius: 8px; font-size: 13px; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 10px; transition: 0.2s; }
@@ -22,9 +22,10 @@
         .card-sub { font-size: 13px !important; margin-bottom: 20px !important; }
         .spec-row { font-size: 13px !important; margin-bottom: 12px !important; }
         
-        .order-btn { padding: 14px !important; font-size: 13px !important; font-weight: 800 !important; border-radius: 8px !important; letter-spacing: 0.5px; text-transform: uppercase; box-shadow: 0 4px 15px rgba(0,0,0,0.2); transition: all 0.2s ease !important; text-align: center; display: block; text-decoration: none; }
-        .card.popular .order-btn { background: var(--accent) !important; color: #000 !important; box-shadow: 0 4px 20px rgba(16, 185, 129, 0.3) !important; }
-        .card.popular .order-btn:hover { background: #059669 !important; box-shadow: 0 6px 25px rgba(16, 185, 129, 0.5) !important; }
+        .order-btn { padding: 14px !important; font-size: 13px !important; font-weight: 800 !important; border-radius: 8px !important; letter-spacing: 0.5px; text-transform: uppercase; box-shadow: 0 4px 15px rgba(0,0,0,0.2); transition: all 0.2s ease !important; text-align: center; display: block; text-decoration: none; cursor: pointer; border: none; width: 100%; background: var(--card-bg); border: 1px solid var(--border-color); color: var(--text-main); }
+        .order-btn:hover { border-color: var(--accent); color: var(--accent); }
+        .card.popular .order-btn { background: var(--accent) !important; color: #000 !important; border: none !important; box-shadow: 0 4px 20px rgba(16, 185, 129, 0.3) !important; }
+        .card.popular .order-btn:hover { background: #059669 !important; box-shadow: 0 6px 25px rgba(16, 185, 129, 0.5) !important; color: #000 !important; }
 
         .api-header-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
         .create-key-btn { background: var(--accent); color: #000; border: none; padding: 12px 22px; border-radius: 8px; font-size: 13px; font-weight: 800; cursor: pointer; transition: 0.2s; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.25); text-transform: uppercase; }
@@ -58,8 +59,8 @@
 <body>
     <header>
         <div class="header-left">
-            <a href="/" class="logo-area" style="display: flex; align-items: center; text-decoration: none; color: var(--text-main); font-weight: 800; font-size: 18px; gap: 10px;">
-                <img src="/logo.png" alt="Logo" style="height: 32px; width: auto; display: block;" onerror="this.style.display='none'">
+            <a href="./index.html" class="logo-area" style="display: flex; align-items: center; text-decoration: none; color: var(--text-main); font-weight: 800; font-size: 18px; gap: 10px;">
+                <img src="./logo.png" alt="Logo" style="height: 32px; width: auto; display: block;" onerror="this.style.display='none'">
                 <span>HQ CLOUD</span>
             </a>
             <nav id="navTabs">
@@ -79,8 +80,8 @@
                 <option value="EUR">EUR (€)</option>
             </select>
             <div id="authArea" class="auth-nav-btns">
-                <a href="/login.html" class="btn-login">LOGIN</a>
-                <a href="/register.html" class="btn-register">REGISTER</a>
+                <a href="./login.html" class="btn-login">LOGIN</a>
+                <a href="./register.html" class="btn-register">REGISTER</a>
             </div>
         </div>
     </header>
@@ -106,8 +107,8 @@
                 You must be logged in to manage your AI & Project API keys. Please login or register to get your API key.
             </div>
             <div class="auth-prompt-btns">
-                <a href="/login.html" class="btn-modal-login">Login</a>
-                <a href="/register.html" class="btn-modal-reg">Register</a>
+                <a href="./login.html" class="btn-modal-login">Login</a>
+                <a href="./register.html" class="btn-modal-reg">Register</a>
             </div>
         </div>
     </div>
@@ -172,7 +173,7 @@
 
         async function init() {
             try {
-                const res = await fetch('/data.json');
+                const res = await fetch('./data.json');
                 siteData = await res.json();
                 checkAuth();
                 renderContent('minecraft');
@@ -454,9 +455,12 @@
         }
 
         function changeCurrency() {
-            currentCurrency = document.getElementById('currencySelect').value;
-            if (currentActiveTab !== 'api_keys') {
-                renderContent(currentActiveTab);
+            const selectElement = document.getElementById('currencySelect');
+            if (selectElement) {
+                currentCurrency = selectElement.value;
+                if (currentActiveTab !== 'api_keys') {
+                    renderContent(currentActiveTab);
+                }
             }
         }
 
@@ -481,7 +485,7 @@
 
         function logout() {
             localStorage.removeItem('hq_user');
-            window.location.href = '/login.html';
+            window.location.href = './login.html';
         }
 
         init();
