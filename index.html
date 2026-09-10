@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>HQ Cloud - AI Model API Gateway</title>
-    <link rel="icon" type="image/png" href="./logo.png">
+    <title>HQ Cloud - Game & AI Infrastructure</title>
+    <link rel="icon" type="image/png" href="logo.png">
     <link rel="stylesheet" href="style.css">
     <style>
         .profile-dropdown { position: relative; display: inline-block; }
@@ -16,60 +16,44 @@
         
         .plans-grid { grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)) !important; gap: 28px !important; margin-top: 30px; }
         .card { padding: 36px !important; border-radius: 14px !important; background: linear-gradient(145deg, #0c1017 0%, #080c12 100%) !important; box-shadow: 0 10px 30px rgba(0,0,0,0.4); }
-        .card:hover { transform: translateY(-4px); box-shadow: 0 15px 40px rgba(16, 185, 129, 0.1); }
         
-        .card-title { font-size: 20px !important; font-weight: 800 !important; }
-        .card-sub { font-size: 13px !important; margin-bottom: 20px !important; }
-        .spec-row { font-size: 13px !important; margin-bottom: 12px !important; }
-        
-        .order-btn { padding: 14px !important; font-size: 13px !important; font-weight: 800 !important; border-radius: 8px !important; letter-spacing: 0.5px; text-transform: uppercase; box-shadow: 0 4px 15px rgba(0,0,0,0.2); transition: all 0.2s ease !important; text-align: center; display: block; text-decoration: none; cursor: pointer; border: none; width: 100%; background: var(--card-bg); border: 1px solid var(--border-color); color: var(--text-main); }
+        .order-btn { padding: 14px !important; font-size: 13px !important; font-weight: 800 !important; border-radius: 8px !important; text-transform: uppercase; cursor: pointer; border: none; width: 100%; background: var(--card-bg); border: 1px solid var(--border-color); color: var(--text-main); transition: 0.2s; text-align: center; display: block; text-decoration: none; }
         .order-btn:hover { border-color: var(--accent); color: var(--accent); }
-        .card.popular .order-btn { background: var(--accent) !important; color: #000 !important; border: none !important; box-shadow: 0 4px 20px rgba(16, 185, 129, 0.3) !important; }
-        .card.popular .order-btn:hover { background: #059669 !important; box-shadow: 0 6px 25px rgba(16, 185, 129, 0.5) !important; color: #000 !important; }
+        .card.popular .order-btn { background: var(--accent) !important; color: #000 !important; border: none !important; }
 
         .api-header-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
-        .create-key-btn { background: var(--accent); color: #000; border: none; padding: 12px 22px; border-radius: 8px; font-size: 13px; font-weight: 800; cursor: pointer; transition: 0.2s; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.25); text-transform: uppercase; }
-        .create-key-btn:hover { background: #059669; box-shadow: 0 6px 22px rgba(16, 185, 129, 0.4); }
-
+        .create-key-btn { background: var(--accent); color: #000; border: none; padding: 12px 22px; border-radius: 8px; font-size: 13px; font-weight: 800; cursor: pointer; text-transform: uppercase; }
         .api-table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-        .api-table th { text-align: left; font-size: 11px; text-transform: uppercase; color: var(--text-muted); padding-bottom: 16px; border-bottom: 1px solid var(--border-color); font-weight: 700; letter-spacing: 0.8px; }
+        .api-table th { text-align: left; font-size: 11px; text-transform: uppercase; color: var(--text-muted); padding-bottom: 16px; border-bottom: 1px solid var(--border-color); font-weight: 700; }
         .api-table td { padding: 20px 0; font-size: 13px; border-bottom: 1px solid rgba(26, 34, 48, 0.4); color: var(--text-main); }
-        .action-icon-btn { background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-color); color: var(--text-muted); padding: 9px 12px; border-radius: 8px; cursor: pointer; margin-right: 8px; transition: 0.2s; }
-        .action-icon-btn:hover { background: rgba(16, 185, 129, 0.1); color: var(--accent); border-color: var(--accent); }
-        .action-icon-btn.delete:hover { background: rgba(239, 68, 68, 0.1); color: #ef4444; border-color: #ef4444; }
-
+        
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(5, 7, 10, 0.85); z-index: 1000; justify-content: center; align-items: center; backdrop-filter: blur(8px); }
-        .modal-box { background: #0c1017; border: 1px solid var(--border-color); border-radius: 14px; width: 520px; padding: 36px; position: relative; box-shadow: 0 25px 50px rgba(0,0,0,0.8); }
-        .modal-close { position: absolute; top: 22px; right: 22px; background: none; border: none; color: var(--text-muted); font-size: 18px; cursor: pointer; transition: 0.2s; }
-        .modal-close:hover { color: #fff; }
-
-        .key-reveal-box { display: flex; align-items: center; background: #05070a; border: 1px solid var(--border-color); border-radius: 8px; padding: 4px 4px 4px 14px; margin: 18px 0; }
-        .key-reveal-input { background: transparent; border: none; color: var(--accent); font-family: monospace; font-size: 13px; width: 100%; outline: none; font-weight: 700; }
-        .copy-key-btn { background: var(--card-bg); border: 1px solid var(--border-color); color: var(--text-main); padding: 10px 16px; border-radius: 6px; font-size: 12px; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 6px; transition: 0.2s; }
-        .copy-key-btn:hover { border-color: var(--accent); color: var(--accent); }
-
-        .auth-prompt-btns { display: flex; gap: 14px; margin-top: 25px; }
-        .auth-prompt-btns a { flex: 1; padding: 12px; border-radius: 8px; font-weight: 800; text-decoration: none; font-size: 13px; text-transform: uppercase; text-align: center; }
-        .btn-modal-login { background: transparent; border: 1px solid var(--border-color); color: var(--text-main); }
-        .btn-modal-login:hover { border-color: var(--accent); color: var(--accent); }
-        .btn-modal-reg { background: var(--accent); color: #000; }
-        .btn-modal-reg:hover { background: #059669; }
+        .modal-box { background: #0c1017; border: 1px solid var(--border-color); border-radius: 14px; width: 480px; padding: 36px; position: relative; box-shadow: 0 25px 50px rgba(0,0,0,0.8); }
+        .modal-close { position: absolute; top: 22px; right: 22px; background: none; border: none; color: var(--text-muted); font-size: 18px; cursor: pointer; }
+        
+        .view-section { display: none; }
+        .view-section.active-view { display: block; }
+        .auth-container { max-width: 420px; margin: 40px auto; background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 14px; padding: 36px; }
+        .form-group { margin-bottom: 20px; text-align: left; }
+        .form-group label { display: block; font-size: 12px; font-weight: 700; text-transform: uppercase; color: var(--text-muted); margin-bottom: 8px; }
+        .form-group input, .form-group textarea { width: 100%; padding: 12px; background: #05070a; border: 1px solid var(--border-color); border-radius: 8px; color: #fff; font-size: 13px; outline: none; }
+        .auth-btn { width: 100%; padding: 14px; background: var(--accent); color: #000; border: none; border-radius: 8px; font-weight: 800; font-size: 13px; text-transform: uppercase; cursor: pointer; }
     </style>
 </head>
 <body>
     <header>
         <div class="header-left">
-            <a href="index.html" class="logo-area" style="display: flex; align-items: center; text-decoration: none; color: var(--text-main); font-weight: 800; font-size: 18px; gap: 10px;">
-                <img src="logo.png" alt="Logo" style="height: 32px; width: auto; display: block;" onerror="this.style.display='none'">
+            <a onclick="switchView('dashboard', 'minecraft')" class="logo-area" style="display: flex; align-items: center; text-decoration: none; color: var(--text-main); font-weight: 800; font-size: 18px; gap: 10px; cursor: pointer;">
+                <img src="logo.png" alt="Logo" style="height: 32px; width: auto;" onerror="this.style.display='none'">
                 <span>HQ CLOUD</span>
             </a>
             <nav id="navTabs">
-                <a onclick="switchTab('minecraft', event)" class="active">Minecraft</a>
-                <a onclick="switchTab('discord_bot', event)">Discord Bot</a>
-                <a onclick="switchTab('vps', event)">VPS</a>
-                <a onclick="switchTab('free_bot_hosting', event)">Free Bot Hosting</a>
-                <a onclick="switchTab('ai_models', event)">AI Models</a>
-                <a onclick="switchTab('api_keys', event)">API Keys</a>
+                <a onclick="switchCategory('minecraft', event)" class="active">Minecraft</a>
+                <a onclick="switchCategory('discord_bot', event)">Discord Bot</a>
+                <a onclick="switchCategory('vps', event)">VPS</a>
+                <a onclick="switchCategory('free_bot_hosting', event)">Free Bot Hosting</a>
+                <a onclick="switchCategory('ai_models', event)">AI Models</a>
+                <a onclick="switchCategory('api_keys', event)">API Keys</a>
             </nav>
         </div>
         <div class="header-right">
@@ -80,245 +64,220 @@
                 <option value="EUR">EUR (€)</option>
             </select>
             <div id="authArea" class="auth-nav-btns">
-                <a href="login.html" class="btn-login">LOGIN</a>
-                <a href="register.html" class="btn-register">REGISTER</a>
+                <button onclick="switchView('login')" class="btn-login">LOGIN</button>
+                <button onclick="switchView('register')" class="btn-register">REGISTER</button>
             </div>
         </div>
     </header>
 
     <div class="container">
-        <div class="hero-section" id="heroSection">
-            <div class="hero-badge" id="heroBadge">Game Server Hosting</div>
-            <h1 id="heroTitle">High-Performance Minecraft<br><span id="heroSubtitle">Server Hosting</span></h1>
-            <div class="hero-desc" id="heroDesc">Deploy high-tickrate Minecraft game servers powered by enterprise hardware with ultra-fast NVMe storage and robust DDoS defense.</div>
+        <!-- GLOBAL ANNOUNCEMENT BANNER -->
+        <div id="announcementBanner" style="display:none; background: rgba(16, 185, 129, 0.1); border: 1px solid var(--accent); padding: 12px 20px; border-radius: 8px; margin-bottom: 25px; font-size: 13px; font-weight: 600; color: var(--accent);"></div>
+
+        <!-- MAIN DASHBOARD VIEW -->
+        <div id="dashboardView" class="view-section active-view">
+            <div class="hero-section" id="heroSection">
+                <div class="hero-badge" id="heroBadge">Game Server Hosting</div>
+                <h1 id="heroTitle">High-Performance Minecraft<br><span id="heroSubtitle">Server Hosting</span></h1>
+                <div class="hero-desc" id="heroDesc">Deploy high-tickrate Minecraft game servers powered by enterprise hardware.</div>
+            </div>
+            <div id="plansContainer" class="plans-grid"></div>
         </div>
 
-        <div id="plansContainer" class="plans-grid">
-            <!-- Content loads dynamically -->
+        <!-- LOGIN VIEW -->
+        <div id="loginView" class="view-section">
+            <div class="auth-container">
+                <div style="font-size: 24px; font-weight: 800; margin-bottom: 8px;">Welcome Back</div>
+                <div style="font-size: 13px; color: var(--text-muted); margin-bottom: 24px;">Enter credentials to access your account. (Admin: entothic@gmail.com / main)</div>
+                <div id="loginError" style="color: #ef4444; font-size: 12px; margin-bottom: 12px; display: none;"></div>
+                <div class="form-group"><label>Email or Username</label><input type="text" id="loginEmail" placeholder="name@example.com"></div>
+                <div class="form-group"><label>Password</label><input type="password" id="loginPassword" placeholder="••••••••"></div>
+                <button onclick="processLogin()" class="auth-btn">Login</button>
+            </div>
+        </div>
+
+        <!-- REGISTER VIEW -->
+        <div id="registerView" class="view-section">
+            <div class="auth-container">
+                <div style="font-size: 24px; font-weight: 800; margin-bottom: 8px;">Create Account</div>
+                <div style="font-size: 13px; color: var(--text-muted); margin-bottom: 24px;">Get started with infrastructure and AI APIs.</div>
+                <div id="regError" style="color: #ef4444; font-size: 12px; margin-bottom: 12px; display: none;"></div>
+                <div class="form-group"><label>Username</label><input type="text" id="regUsername" placeholder="johndoe"></div>
+                <div class="form-group"><label>Email Address</label><input type="email" id="regEmail" placeholder="name@example.com"></div>
+                <div class="form-group"><label>Password</label><input type="password" id="regPassword" placeholder="••••••••"></div>
+                <button onclick="processRegister()" class="auth-btn">Register</button>
+            </div>
+        </div>
+
+        <!-- ADMIN PANEL VIEW -->
+        <div id="adminView" class="view-section">
+            <div class="card" style="width: 100%; max-width: 800px; margin: 0 auto;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                    <div>
+                        <div style="font-size: 22px; font-weight: 800;">Admin Control Panel</div>
+                        <div style="font-size: 13px; color: var(--text-muted);">Authorized as entothic@gmail.com</div>
+                    </div>
+                    <button onclick="switchView('dashboard', 'minecraft')" class="create-key-btn" style="background: transparent; border: 1px solid var(--border-color); color: #fff;">Back to Site</button>
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px;">
+                    <div style="background: #05070a; padding: 20px; border-radius: 8px; border: 1px solid var(--border-color);">
+                        <div style="font-size: 11px; color: var(--text-muted); text-transform: uppercase;">Total Users</div>
+                        <div id="adminStatUsers" style="font-size: 24px; font-weight: 800; color: var(--accent); margin-top: 5px;">0</div>
+                    </div>
+                    <div style="background: #05070a; padding: 20px; border-radius: 8px; border: 1px solid var(--border-color);">
+                        <div style="font-size: 11px; color: var(--text-muted); text-transform: uppercase;">Active API Keys</div>
+                        <div id="adminStatKeys" style="font-size: 24px; font-weight: 800; color: var(--accent); margin-top: 5px;">0</div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Global Announcement Banner</label>
+                    <textarea id="adminNoticeInput" rows="3" placeholder="Write global notice message here..."></textarea>
+                </div>
+                <button onclick="saveAdminNotice()" class="create-key-btn" style="width: 100%; padding: 14px;">Save Notice</button>
+            </div>
         </div>
     </div>
 
-    <!-- Login Required Custom Modal -->
-    <div id="authPromptModal" class="modal-overlay">
-        <div class="modal-box" style="width: 420px; text-align: center;">
-            <button class="modal-close" onclick="closeAuthPromptModal()">✕</button>
-            <div style="font-size: 22px; font-weight: 800; margin-bottom: 10px;">Authentication Required</div>
-            <div style="font-size: 13px; color: var(--text-muted); line-height: 1.5; margin-bottom: 10px;">
-                You must be logged in to manage your AI & Project API keys. Please login or register to get your API key.
-            </div>
-            <div class="auth-prompt-btns">
-                <a href="login.html" class="btn-modal-login">Login</a>
-                <a href="register.html" class="btn-modal-reg">Register</a>
-            </div>
-        </div>
-    </div>
-
-    <!-- Create API Key Modal -->
+    <!-- CREATE API KEY MODAL -->
     <div id="createModal" class="modal-overlay">
         <div class="modal-box">
-            <button class="modal-close" onclick="closeCreateModal()">✕</button>
+            <button class="modal-close" onclick="document.getElementById('createModal').style.display='none'">✕</button>
             <div style="font-size: 20px; font-weight: 800; margin-bottom: 6px;">Create API Key</div>
-            <div style="font-size: 13px; color: var(--text-muted); margin-bottom: 24px;">Provide a display name and expiration duration for your new AI model key.</div>
-            <div class="form-group">
-                <label>Display Name</label>
-                <input type="text" id="keyNameInput" placeholder="e.g. Production AI Model Key" maxlength="50" style="padding: 12px; font-size: 13px;">
-                <div style="font-size: 11px; color: var(--text-muted); margin-top: 6px;">A display name for the key. Maximum 50 characters.</div>
-            </div>
-            <div class="form-group" style="margin-bottom: 30px;">
-                <label>Expiration</label>
-                <select id="keyExpiration" class="currency-select-box" style="width: 100%; padding: 12px; font-size: 13px;">
-                    <option value="Never">No expiration</option>
-                    <option value="7 days">7 days</option>
-                    <option value="30 days">30 days</option>
-                    <option value="90 days">90 days</option>
-                </select>
-            </div>
-            <button onclick="submitCreateKey()" class="create-key-btn" style="width: 100%; padding: 14px; font-size: 13px;">Create API Key</button>
+            <div style="font-size: 13px; color: var(--text-muted); margin-bottom: 20px;">Generate token for LLM endpoint calls.</div>
+            <div class="form-group"><label>Key Name</label><input type="text" id="keyNameInput" placeholder="Production Key"></div>
+            <button onclick="submitCreateKey()" class="create-key-btn" style="width: 100%; padding: 14px;">Generate Key</button>
         </div>
     </div>
 
-    <!-- Success One-Time Secret Modal -->
-    <div id="successModal" class="modal-overlay">
+    <!-- REVEAL KEY MODAL -->
+    <div id="revealModal" class="modal-overlay">
         <div class="modal-box">
-            <button class="modal-close" onclick="closeSuccessModal()">✕</button>
-            <div style="font-size: 20px; font-weight: 800; margin-bottom: 8px;">Create API Key</div>
-            <div style="font-size: 13px; color: var(--text-muted); line-height: 1.5; margin-bottom: 10px;">
-                Your new AI model API key has been created. <b style="color: #fff;">Copy it now, as we will not display it again.</b>
-            </div>
-            <div class="key-reveal-box">
-                <input type="text" id="newGeneratedKeyOutput" readonly class="key-reveal-input">
-                <button class="copy-key-btn" onclick="copyNewKey()">
-                    📋 Copy
-                </button>
-            </div>
-            <button onclick="closeSuccessModal()" class="create-key-btn" style="width: 100%; margin-top: 10px; padding: 14px;">Done</button>
+            <button class="modal-close" onclick="document.getElementById('revealModal').style.display='none'; switchCategory('api_keys')">✕</button>
+            <div style="font-size: 20px; font-weight: 800; margin-bottom: 6px;">Save Your API Key</div>
+            <div style="font-size: 13px; color: var(--text-muted); margin-bottom: 15px;">Copy this key now. It will not be shown again.</div>
+            <input type="text" id="revealedKeyText" readonly style="width: 100%; background: #05070a; border: 1px solid var(--border-color); color: var(--accent); padding: 12px; font-family: monospace; font-weight: 700; margin-bottom: 15px; border-radius: 8px;">
+            <button onclick="document.getElementById('revealModal').style.display='none'; switchCategory('api_keys')" class="create-key-btn" style="width: 100%; padding: 14px;">Done</button>
         </div>
     </div>
 
     <script>
-        let siteData = {};
         let currentCurrency = 'INR';
-        let currentActiveTab = 'minecraft';
+        let currentCategory = 'minecraft';
 
-        function getSavedKeys() {
-            const keys = localStorage.getItem('hq_api_keys');
-            if (keys) return JSON.parse(keys);
-            const defaultKeys = [
-                { id: 1, name: 'AI Bot Integration Key', secret: 'gsk_...pBcS', created: '09/09/2026', lastUsed: 'Never', expires: 'Never', usage: '0 API Calls' },
-                { id: 2, name: 'LLM Model Gateway', secret: 'gsk_...vr0c', created: '10/09/2026', lastUsed: 'Never', expires: 'Never', usage: '0 API Calls' }
-            ];
-            localStorage.setItem('hq_api_keys', JSON.stringify(defaultKeys));
-            return defaultKeys;
+        const siteData = {
+            currency_rates: {
+                INR: { symbol: '₹', rate: 83 },
+                USD: { symbol: '$', rate: 1 },
+                EUR: { symbol: '€', rate: 0.92 }
+            },
+            hosting_plans: {
+                minecraft: [
+                    { title: 'Iron Plan', subtitle: 'Great for small communities', price_inr: 399, badge: 'POPULAR', specs: [{label:'RAM', value:'4 GB'}, {label:'CPU', value:'2 vCPU'}, {label:'Storage', value:'40 GB NVMe'}] },
+                    { title: 'Gold Plan', subtitle: 'For active public servers', price_inr: 799, badge: 'BEST VALUE', specs: [{label:'RAM', value:'8 GB'}, {label:'CPU', value:'4 vCPU'}, {label:'Storage', value:'80 GB NVMe'}] }
+                ],
+                discord_bot: [
+                    { title: 'Bot Starter', subtitle: 'Always online execution', price_inr: 149, badge: 'LIGHTWEIGHT', specs: [{label:'RAM', value:'512 MB'}, {label:'Uptime', value:'99.9%'}, {label:'Storage', value:'5 GB'}] }
+                ],
+                vps: [
+                    { title: 'Cloud VPS 1', subtitle: 'Full root access control', price_inr: 599, badge: 'PERFORMANCE', specs: [{label:'RAM', value:'2 GB'}, {label:'vCPU', value:'1 Core'}, {label:'NVMe', value:'50 GB'}] }
+                ],
+                free_bot_hosting: [
+                    { title: 'Free Tier', subtitle: 'Community bot hosting', price_inr: 0, badge: 'FREE', specs: [{label:'RAM', value:'256 MB'}, {label:'Cost', value:'$0 / mo'}, {label:'Uptime', value:'Standard'}] }
+                ],
+                ai_models: [
+                    { title: 'HQ-LLM Ultra 70B', subtitle: 'Advanced open reasoning model', price_inr: 799, badge: 'POPULAR', specs: [{label:'Context', value:'128k'}, {label:'Speed', value:'140 tok/s'}] },
+                    { title: 'HQ-Coder Pro 32B', subtitle: 'Specialized code generation', price_inr: 499, badge: 'FAST', specs: [{label:'Context', value:'64k'}, {label:'Accuracy', value:'94.8%'}] }
+                ]
+            }
+        };
+
+        function initApp() {
+            checkAuthUI();
+            checkGlobalNotice();
+            switchCategory('minecraft');
         }
 
-        async function init() {
-            try {
-                const res = await fetch('data.json');
-                siteData = await res.json();
-                checkAuth();
-                renderContent('minecraft');
-            } catch (err) {
-                console.error('Failed to load data.json', err);
+        function checkGlobalNotice() {
+            const notice = localStorage.getItem('hq_announcement');
+            const banner = document.getElementById('announcementBanner');
+            if (notice) {
+                banner.innerText = notice;
+                banner.style.display = 'block';
+            } else {
+                banner.style.display = 'none';
             }
         }
 
-        function switchTab(category, e) {
+        function switchView(viewName, category = null) {
+            document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active-view'));
+            if (viewName === 'dashboard') {
+                document.getElementById('dashboardView').classList.add('active-view');
+                if (category) switchCategory(category);
+            } else if (viewName === 'login') {
+                document.getElementById('loginView').classList.add('active-view');
+            } else if (viewName === 'register') {
+                document.getElementById('registerView').classList.add('active-view');
+            } else if (viewName === 'admin') {
+                document.getElementById('adminView').classList.add('active-view');
+                loadAdminStats();
+            }
+        }
+
+        function switchCategory(category, e) {
             if (category === 'api_keys') {
                 const user = localStorage.getItem('hq_user');
                 if (!user) {
-                    document.getElementById('authPromptModal').style.display = 'flex';
+                    alert('You must be logged in to manage API keys.');
+                    switchView('login');
                     return;
                 }
             }
 
             document.querySelectorAll('nav a').forEach(el => el.classList.remove('active'));
-            if(e && e.target) e.target.classList.add('active');
-            currentActiveTab = category;
-            renderContent(category);
+            if (e && e.target) e.target.classList.add('active');
+            
+            currentCategory = category;
+            renderPlansOrKeys(category);
         }
 
-        function closeAuthPromptModal() {
-            document.getElementById('authPromptModal').style.display = 'none';
-        }
-
-        function renderContent(category) {
+        function renderPlansOrKeys(category) {
             const container = document.getElementById('plansContainer');
             const heroSection = document.getElementById('heroSection');
             container.innerHTML = '';
-
-            if (category === 'ai_models') {
-                heroSection.style.display = 'block';
-                document.getElementById('heroBadge').innerText = 'Advanced AI Intelligence';
-                document.getElementById('heroTitle').innerHTML = 'High-Speed AI Models &<br><span>LLM Inference Hub</span>';
-                document.getElementById('heroDesc').innerText = 'Access cutting-edge open and proprietary AI models with ultra-low latency endpoints and secure API token generation.';
-
-                const aiModels = [
-                    { title: 'HQ-LLM Ultra 70B', subtitle: 'State-of-the-art conversational model for complex reasoning and coding.', specs: [{label:'Context Window', value:'128k Tokens'}, {label:'Speed', value:'140 tok/sec'}, {label:'Latency', value:'< 180ms'}], price_inr: 799, badge: 'POPULAR' },
-                    { title: 'HQ-Coder Pro 32B', subtitle: 'Specialized code generation, debugging, and software architecture assistant.', specs: [{label:'Context Window', value:'64k Tokens'}, {label:'Speed', value:'180 tok/sec'}, {label:'Accuracy', value:'94.8%'}], price_inr: 499, badge: 'BEST VALUE' },
-                    { title: 'HQ-Vision Flash 8B', subtitle: 'Multimodal vision and lightning-fast image analysis model.', specs: [{label:'Modality', value:'Text + Vision'}, {label:'Speed', value:'240 tok/sec'}, {label:'Throughput', value:'High'}], price_inr: 299, badge: 'FAST' }
-                ];
-
-                aiModels.forEach(plan => {
-                    const convertedPrice = Math.round(plan.price_inr * (siteData.currency_rates?.[currentCurrency]?.rate || 1));
-                    const currSymbol = siteData.currency_rates?.[currentCurrency]?.symbol || '₹';
-                    const isPopular = plan.badge === 'POPULAR' || plan.badge === 'BEST VALUE';
-
-                    let specsHtml = '';
-                    plan.specs.forEach(spec => {
-                        specsHtml += `
-                            <div class="spec-row">
-                                <span class="spec-label">${spec.label}</span>
-                                <span class="spec-value">${spec.value}</span>
-                            </div>
-                        `;
-                    });
-
-                    container.innerHTML += `
-                        <div class="card ${isPopular ? 'popular' : ''}">
-                            ${plan.badge ? `<div class="badge">${plan.badge}</div>` : ''}
-                            <div>
-                                <div class="card-title">${plan.title}</div>
-                                <div class="card-sub">${plan.subtitle}</div>
-                                <div class="card-divider"></div>
-                                ${specsHtml}
-                            </div>
-                            <div>
-                                <div class="card-divider"></div>
-                                <div class="price-section">
-                                    <div class="price-starting">Access From</div>
-                                    <div class="price-amount">${currSymbol}${convertedPrice}<span>/mo</span></div>
-                                </div>
-                                <button onclick="handleGetApiKeyClick()" class="order-btn">Get API Key</button>
-                            </div>
-                        </div>
-                    `;
-                });
-                return;
-            }
+            heroSection.style.display = 'block';
 
             if (category === 'api_keys') {
-                heroSection.style.display = 'block';
-                document.getElementById('heroBadge').innerText = 'AI & LLM Services';
-                document.getElementById('heroTitle').innerHTML = 'AI Model API Keys &<br><span>Access Management</span>';
-                document.getElementById('heroDesc').innerText = 'Manage your high-performance AI model API keys. Secure your endpoints for seamless integration with custom chatbots and models.';
-                
-                const keys = getSavedKeys();
-                let rowsHtml = '';
+                heroSection.style.display = 'none';
+                const keys = JSON.parse(localStorage.getItem('hq_api_keys') || '[]');
+                let rows = '';
                 keys.forEach(k => {
-                    rowsHtml += `
-                        <tr>
-                            <td><b style="font-size: 14px;">${k.name}</b></td>
-                            <td style="color: var(--accent); font-family: monospace; font-weight: 700;">${k.secret}</td>
-                            <td>${k.created}</td>
-                            <td>${k.lastUsed}</td>
-                            <td>${k.expires}</td>
-                            <td>${k.usage}</td>
-                            <td style="text-align: right;">
-                                <button class="action-icon-btn" onclick="editKeyName(${k.id})" title="Rename">✏️</button>
-                                <button class="action-icon-btn delete" onclick="deleteApiKey(${k.id})" title="Delete">🗑️</button>
-                            </td>
-                        </tr>
-                    `;
+                    rows += `<tr><td><b>${k.name}</b></td><td style="color:var(--accent);font-family:monospace;">${k.secret}</td><td>${k.created}</td><td style="text-align:right;"><button onclick="deleteKey(${k.id})" style="background:rgba(239,68,68,0.1);color:#ef4444;border:1px solid #ef4444;padding:6px 12px;border-radius:6px;cursor:pointer;">Delete</button></td></tr>`;
                 });
 
                 container.innerHTML = `
                     <div class="card" style="grid-column: span 12; width: 100%;">
                         <div class="api-header-row">
                             <div>
-                                <div class="card-title" style="font-size: 20px;">AI Model API Keys</div>
-                                <div class="card-sub" style="margin-bottom: 0;">Manage your project and AI model credentials. Keep keys secure to prevent unauthorized access.</div>
+                                <div style="font-size: 20px; font-weight: 800;">Your API Keys</div>
+                                <div style="font-size: 13px; color: var(--text-muted);">Manage security keys for AI model endpoints.</div>
                             </div>
-                            <button class="create-key-btn" onclick="openCreateModal()">+ Create API Key</button>
+                            <button onclick="document.getElementById('createModal').style.display='flex'" class="create-key-btn">+ Create Key</button>
                         </div>
-                        <div style="overflow-x: auto;">
-                            <table class="api-table">
-                               <thead>
-                                   <tr>
-                                       <th>Name</th>
-                                       <th>Secret Key</th>
-                                       <th>Created</th>
-                                       <th>Last Used</th>
-                                       <th>Expires</th>
-                                       <th>Usage (24hrs)</th>
-                                       <th style="text-align: right;">Actions</th>
-                                   </tr>
-                               </thead>
-                               <tbody>
-                                   ${rowsHtml.length > 0 ? rowsHtml : '<tr><td colspan="7" style="text-align:center; color: var(--text-muted); padding: 40px;">No API keys created yet.</td></tr>'}
-                               </tbody>
-                            </table>
-                        </div>
+                        <table class="api-table">
+                            <thead><tr><th>Name</th><th>Secret Key</th><th>Created</th><th style="text-align:right;">Action</th></tr></thead>
+                            <tbody>${rows.length ? rows : '<tr><td colspan="4" style="text-align:center; color:var(--text-muted); padding:30px;">No keys created yet.</td></tr>'}</tbody>
+                        </table>
                     </div>
                 `;
                 return;
             }
 
-            heroSection.style.display = 'block';
             const titles = {
-                'minecraft': { badge: 'Game Server Hosting', title: 'High-Performance Minecraft', sub: 'Server Hosting', desc: 'Deploy high-tickrate Minecraft game servers powered by enterprise hardware with ultra-fast NVMe storage.' },
-                'discord_bot': { badge: 'Bot Hosting', title: 'Reliable Discord Bot', sub: 'Hosting Solutions', desc: 'Keep your bots running 24/7 with zero downtime and fast processors.' },
-                'vps': { badge: 'Cloud Servers', title: 'Full Root Access', sub: 'Virtual Private Servers', desc: 'Powerful cloud VPS instances built with high-performance NVMe SSD storage.' },
-                'free_bot_hosting': { badge: 'Community Tier', title: 'Free Bot Hosting', sub: 'Always Online', desc: 'Get started with free infrastructure for your community projects.' }
+                minecraft: { badge: 'Game Server Hosting', title: 'High-Performance Minecraft', sub: 'Server Hosting', desc: 'Enterprise hardware with ultra-fast NVMe storage.' },
+                discord_bot: { badge: 'Bot Hosting', title: 'Reliable Discord Bot', sub: 'Hosting Solutions', desc: 'Keep bots online 24/7 with zero downtime.' },
+                vps: { badge: 'Cloud Servers', title: 'Full Root Access', sub: 'Virtual Private Servers', desc: 'Powerful cloud instances with lightning speed.' },
+                free_bot_hosting: { badge: 'Community Tier', title: 'Free Bot Hosting', sub: 'Always Online', desc: 'Free infrastructure for community projects.' },
+                ai_models: { badge: 'AI Models', title: 'LLM Inference Hub', sub: 'Open & Proprietary Models', desc: 'Ultra-low latency inference endpoints.' }
             };
 
             const info = titles[category] || {};
@@ -326,169 +285,159 @@
             document.getElementById('heroTitle').innerHTML = `${info.title}<br><span>${info.sub}</span>`;
             document.getElementById('heroDesc').innerText = info.desc || '';
 
-            const plans = siteData.hosting_plans?.[category] || [];
-            const currRates = siteData.currency_rates || {};
-            const currInfo = currRates[currentCurrency] || { symbol: '₹', rate: 1 };
+            const plans = siteData.hosting_plans[category] || [];
+            const curr = siteData.currency_rates[currentCurrency];
 
             plans.forEach(plan => {
-                const convertedPrice = Math.round(plan.price_inr * currInfo.rate);
-                const isPopular = plan.badge === 'POPULAR' || plan.badge === 'BEST VALUE';
-
+                const price = Math.round(plan.price_inr * curr.rate);
                 let specsHtml = '';
-                plan.specs.forEach(spec => {
-                    specsHtml += `
-                        <div class="spec-row">
-                            <span class="spec-label">${spec.label}</span>
-                            <span class="spec-value">${spec.value}</span>
-                        </div>
-                    `;
+                plan.specs.forEach(s => {
+                    specsHtml += `<div class="spec-row"><span style="color:var(--text-muted);">${s.label}</span><span style="font-weight:700;">${s.value}</span></div>`;
                 });
 
                 container.innerHTML += `
-                    <div class="card ${isPopular ? 'popular' : ''}">
-                        ${plan.badge ? `<div class="badge">${plan.badge}</div>` : ''}
+                    <div class="card ${plan.badge === 'POPULAR' ? 'popular' : ''}">
+                        ${plan.badge ? `<div style="position:absolute; top:-10px; right:20px; background:var(--accent); color:#000; font-size:10px; font-weight:800; padding:4px 10px; border-radius:4px;">${plan.badge}</div>` : ''}
                         <div>
-                            <div class="card-title">${plan.title}</div>
-                            <div class="card-sub">${plan.subtitle}</div>
-                            <div class="card-divider"></div>
+                            <div style="font-size:18px; font-weight:800; margin-bottom:4px;">${plan.title}</div>
+                            <div style="font-size:12px; color:var(--text-muted); margin-bottom:20px;">${plan.subtitle}</div>
+                            <div style="height:1px; background:var(--border-color); margin-bottom:15px;"></div>
                             ${specsHtml}
                         </div>
                         <div>
-                            <div class="card-divider"></div>
-                            <div class="price-section">
-                                <div class="price-starting">Starting at</div>
-                                <div class="price-amount">${currInfo.symbol}${convertedPrice}<span>/mo</span></div>
-                            </div>
-                            <a href="${plan.button_link}" target="_blank" class="order-btn">${plan.button_text}</a>
+                            <div style="height:1px; background:var(--border-color); margin:20px 0;"></div>
+                            <div style="font-size:11px; color:var(--text-muted); text-transform:uppercase; font-weight:700;">Starting at</div>
+                            <div style="font-size:22px; font-weight:900; margin-bottom:15px;">${curr.symbol}${price}<span style="font-size:12px; color:var(--text-muted); font-weight:400;">/mo</span></div>
+                            <button onclick="handleDeploy('${category}')" class="order-btn">${category === 'ai_models' ? 'Get API Key' : 'Deploy Now'}</button>
                         </div>
                     </div>
                 `;
             });
         }
 
-        function handleGetApiKeyClick() {
+        function handleDeploy(category) {
             const user = localStorage.getItem('hq_user');
             if (!user) {
-                document.getElementById('authPromptModal').style.display = 'flex';
+                alert('Please login or register to deploy infrastructure or manage models.');
+                switchView('login');
             } else {
-                switchTab('api_keys', { target: document.querySelector('nav a:nth-child(6)') });
+                if (category === 'ai_models') switchCategory('api_keys');
+                else alert('Deployment initialized successfully!');
             }
         }
 
-        function openCreateModal() {
-            document.getElementById('keyNameInput').value = '';
-            document.getElementById('createModal').style.display = 'flex';
-        }
+        function processRegister() {
+            const username = document.getElementById('regUsername').value.trim();
+            const email = document.getElementById('regEmail').value.trim();
+            const password = document.getElementById('regPassword').value;
+            const err = document.getElementById('regError');
 
-        function closeCreateModal() {
-            document.getElementById('createModal').style.display = 'none';
-        }
-
-        function submitCreateKey() {
-            const name = document.getElementById('keyNameInput').value.trim() || 'Untitled AI Key';
-            const expiresSelect = document.getElementById('keyExpiration').value;
-            
-            let expiresText = 'Never';
-            if (expiresSelect !== 'Never') {
-                const daysNum = parseInt(expiresSelect);
-                const futureDate = new Date();
-                futureDate.setDate(futureDate.getDate() + daysNum);
-                expiresText = futureDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+            if (!username || !email || !password) {
+                err.innerText = 'Please fill out all fields.';
+                err.style.display = 'block';
+                return;
             }
 
-            const randomHex = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
-            const fullKey = `gsk_${randomHex}AancGX3WI96lpKMQR`;
-            const maskedKey = `gsk_...${fullKey.slice(-4)}`;
-
-            const keys = getSavedKeys();
-            const newKeyObj = {
-                id: Date.now(),
-                name: name,
-                secret: maskedKey,
-                created: new Date().toLocaleDateString('en-GB'),
-                lastUsed: 'Never',
-                expires: expiresText,
-                usage: '0 API Calls'
-            };
-
-            keys.push(newKeyObj);
-            localStorage.setItem('hq_api_keys', JSON.stringify(keys));
-
-            closeCreateModal();
-
-            document.getElementById('newGeneratedKeyOutput').value = fullKey;
-            document.getElementById('successModal').style.display = 'flex';
+            const userObj = { username, email, password };
+            localStorage.setItem('hq_user', JSON.stringify(userObj));
+            localStorage.setItem('hq_registered_user', JSON.stringify(userObj));
+            switchView('dashboard', 'minecraft');
+            checkAuthUI();
         }
 
-        function copyNewKey() {
-            const copyText = document.getElementById('newGeneratedKeyOutput');
-            copyText.select();
-            navigator.clipboard.writeText(copyText.value);
-            alert('API Key copied to clipboard!');
-        }
+        function processLogin() {
+            const val = document.getElementById('loginEmail').value.trim().toLowerCase();
+            const pass = document.getElementById('loginPassword').value;
+            const err = document.getElementById('loginError');
 
-        function closeSuccessModal() {
-            document.getElementById('successModal').style.display = 'none';
-            renderContent('api_keys');
-        }
-
-        function deleteApiKey(id) {
-            if (confirm('Are you sure you want to delete this API key?')) {
-                let keys = getSavedKeys();
-                keys = keys.filter(k => k.id !== id);
-                localStorage.setItem('hq_api_keys', JSON.stringify(keys));
-                renderContent('api_keys');
+            if ((val === 'muhammed' || val === 'entothic@gmail.com') && pass === 'main') {
+                localStorage.setItem('hq_user', JSON.stringify({ username: 'muhammed', email: 'entothic@gmail.com' }));
+                switchView('admin');
+                return;
             }
+
+            const reg = JSON.parse(localStorage.getItem('hq_registered_user') || '{}');
+            if ((reg.email === val || reg.username === val) && reg.password === pass) {
+                localStorage.setItem('hq_user', JSON.stringify(reg));
+                switchView('dashboard', 'minecraft');
+                checkAuthUI();
+                return;
+            }
+
+            err.innerText = 'Invalid credentials. For admin use entothic@gmail.com / main';
+            err.style.display = 'block';
         }
 
-        function editKeyName(id) {
-            const keys = getSavedKeys();
-            const key = keys.find(k => k.id === id);
-            if (key) {
-                const newName = prompt('Enter new display name for key:', key.name);
-                if (newName) {
-                    key.name = newName.trim();
-                    localStorage.setItem('hq_api_keys', JSON.stringify(keys));
-                    renderContent('api_keys');
+        function checkAuthUI() {
+            const userJson = localStorage.getItem('hq_user');
+            const authArea = document.getElementById('authArea');
+            if (userJson) {
+                const u = JSON.parse(userJson);
+                if (u.email === 'entothic@gmail.com') {
+                    authArea.innerHTML = `<button onclick="switchView('admin')" class="btn-register">ADMIN PANEL</button><button onclick="logout()" class="btn-login">LOGOUT</button>`;
+                } else {
+                    authArea.innerHTML = `
+                        <div class="profile-dropdown">
+                            <div class="profile-btn">👤 ${u.username} ▾</div>
+                            <div class="dropdown-menu">
+                                <a onclick="switchCategory('api_keys')">API Keys</a>
+                                <button onclick="logout()">Logout</button>
+                            </div>
+                        </div>`;
                 }
-            }
-        }
-
-        function changeCurrency() {
-            const selectElement = document.getElementById('currencySelect');
-            if (selectElement) {
-                currentCurrency = selectElement.value;
-                if (currentActiveTab !== 'api_keys') {
-                    renderContent(currentActiveTab);
-                }
-            }
-        }
-
-        function checkAuth() {
-            const user = localStorage.getItem('hq_user');
-            if (user) {
-                const userData = JSON.parse(user);
-                document.getElementById('authArea').innerHTML = `
-                    <div class="profile-dropdown">
-                        <div class="profile-btn">
-                            👤 ${userData.username || 'Account'} ▾
-                        </div>
-                        <div class="dropdown-menu">
-                            <a onclick="switchTab('ai_models', event)">AI Models</a>
-                            <a onclick="switchTab('api_keys', event)">API Keys</a>
-                            <button onclick="logout()">Logout</button>
-                        </div>
-                    </div>
-                `;
+            } else {
+                authArea.innerHTML = `<button onclick="switchView('login')" class="btn-login">LOGIN</button><button onclick="switchView('register')" class="btn-register">REGISTER</button>`;
             }
         }
 
         function logout() {
             localStorage.removeItem('hq_user');
-            window.location.href = 'login.html';
+            switchView('dashboard', 'minecraft');
+            checkAuthUI();
         }
 
-        init();
+        function submitCreateKey() {
+            const name = document.getElementById('keyNameInput').value.trim() || 'API Key';
+            const secret = 'gsk_' + Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+            const keys = JSON.parse(localStorage.getItem('hq_api_keys') || '[]');
+            
+            const newKey = { id: Date.now(), name, secret, created: new Date().toLocaleDateString() };
+            keys.push(newKey);
+            localStorage.setItem('hq_api_keys', JSON.stringify(keys));
+
+            document.getElementById('createModal').style.display = 'none';
+            document.getElementById('revealedKeyText').value = secret;
+            document.getElementById('revealModal').style.display = 'flex';
+        }
+
+        function deleteKey(id) {
+            let keys = JSON.parse(localStorage.getItem('hq_api_keys') || '[]');
+            keys = keys.filter(k => k.id !== id);
+            localStorage.setItem('hq_api_keys', JSON.stringify(keys));
+            switchCategory('api_keys');
+        }
+
+        function loadAdminStats() {
+            const reg = localStorage.getItem('hq_registered_user');
+            document.getElementById('adminStatUsers').innerText = reg ? '1' : '0';
+            const keys = JSON.parse(localStorage.getItem('hq_api_keys') || '[]');
+            document.getElementById('adminStatKeys').innerText = keys.length;
+            document.getElementById('adminNoticeInput').value = localStorage.getItem('hq_announcement') || '';
+        }
+
+        function saveAdminNotice() {
+            const text = document.getElementById('adminNoticeInput').value;
+            localStorage.setItem('hq_announcement', text);
+            checkGlobalNotice();
+            alert('Global announcement saved successfully!');
+        }
+
+        function changeCurrency() {
+            currentCurrency = document.getElementById('currencySelect').value;
+            if (currentCategory !== 'api_keys') renderPlansOrKeys(currentCategory);
+        }
+
+        initApp();
     </script>
 </body>
 </html>
