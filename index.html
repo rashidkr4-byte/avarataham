@@ -88,7 +88,7 @@
         <div id="loginView" class="view-section">
             <div class="auth-container">
                 <div style="font-size: 24px; font-weight: 800; margin-bottom: 8px;">Welcome Back</div>
-                <div style="font-size: 13px; color: var(--text-muted); margin-bottom: 24px;">Enter credentials to access your account. (Admin: entothic@gmail.com / main)</div>
+                <div style="font-size: 13px; color: var(--text-muted); margin-bottom: 24px;">Enter credentials to access your account.</div>
                 <div id="loginError" style="color: #ef4444; font-size: 12px; margin-bottom: 12px; display: none;"></div>
                 <div class="form-group"><label>Email or Username</label><input type="text" id="loginEmail" placeholder="name@example.com"></div>
                 <div class="form-group"><label>Password</label><input type="password" id="loginPassword" placeholder="••••••••"></div>
@@ -350,8 +350,8 @@
             const pass = document.getElementById('loginPassword').value;
             const err = document.getElementById('loginError');
 
-            if ((val === 'muhammed' || val === 'entothic@gmail.com') && pass === 'main') {
-                localStorage.setItem('hq_user', JSON.stringify({ username: 'muhammed', email: 'entothic@gmail.com' }));
+            if (val === 'entothic@gmail.com' && pass === 'muhammedkr1') {
+                localStorage.setItem('hq_user', JSON.stringify({ username: 'Muhammed', email: 'entothic@gmail.com' }));
                 switchView('admin');
                 return;
             }
@@ -364,7 +364,7 @@
                 return;
             }
 
-            err.innerText = 'Invalid credentials. For admin use entothic@gmail.com / main';
+            err.innerText = 'Invalid credentials. Please check your email and password.';
             err.style.display = 'block';
         }
 
