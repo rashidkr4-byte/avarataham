@@ -1,0 +1,69 @@
+{
+  "currency_rates": {
+    "INR": { "symbol": "₹", "rate": 1 },
+    "USD": { "symbol": "$", "rate": 0.012 },
+    "EUR": { "symbol": "€", "rate": 0.011 }
+  },
+  "hosting_plans": {
+    "minecraft": [
+      {
+        "title": "Budget Extreme",
+        "subtitle": "Ryzen 9 7900X",
+        "price_inr": 299,
+        "badge": "POPULAR",
+        "button_text": "ORDER NOW",
+        "button_link": "https://discord.gg/47x3SAJhXy",
+        "specs": [
+          { "label": "RAM", "value": "4 GB DDR5" },
+          { "label": "Storage", "value": "25 GB NVMe" },
+          { "label": "vCPU", "value": "2 Cores" }
+        ]
+      }
+    ],
+    "discord_bot": [
+      {
+        "title": "Bot Node",
+        "subtitle": "High Uptime",
+        "price_inr": 99,
+        "badge": "POPULAR",
+        "button_text": "ORDER NOW",
+        "button_link": "https://discord.gg/47x3SAJhXy",
+        "specs": [
+          { "label": "RAM", "value": "1 GB" },
+          { "label": "Storage", "value": "10 GB NVMe" },
+          { "label": "vCPU", "value": "1 Core" }
+        ]
+      }
+    ],
+    "vps": [
+      {
+        "title": "Cloud VPS",
+        "subtitle": "Full Root Access",
+        "price_inr": 499,
+        "badge": "BEST VALUE",
+        "button_text": "ORDER NOW",
+        "button_link": "https://discord.gg/47x3SAJhXy",
+        "specs": [
+          { "label": "RAM", "value": "4 GB" },
+          { "label": "Storage", "value": "80 GB NVMe" },
+          { "label": "Bandwidth", "value": "2 TB" }
+        ]
+      }
+    ],
+    "free_bot_hosting": [
+      {
+        "title": "Community Tier",
+        "subtitle": "Always Free",
+        "price_inr": 0,
+        "badge": "FREE",
+        "button_text": "DEPLOY",
+        "button_link": "https://discord.gg/47x3SAJhXy",
+        "specs": [
+          { "label": "RAM", "value": "512 MB" },
+          { "label": "Storage", "value": "2 GB" },
+          { "label": "vCPU", "value": "0.5 Core" }
+        ]
+      }
+    ]
+  }
+}

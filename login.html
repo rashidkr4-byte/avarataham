@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login - HQ Cloud</title>
+    <link rel="icon" type="image/png" href="/logo.png">
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body style="display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0;">
+    <div class="card" style="width: 380px; padding: 40px; text-align: center;">
+        <div style="margin-bottom: 25px;">
+            <a href="/" style="display: flex; align-items: center; justify-content: center; gap: 10px; text-decoration: none; color: #fff; font-weight: 800; font-size: 20px;">
+                <img src="/logo.png" alt="Logo" style="height: 36px; width: auto;">
+                HQ CLOUD
+            </a>
+        </div>
+        <form onsubmit="handleLogin(event)">
+            <div class="form-group" style="text-align: left;"><label>Email or Username</label><input type="text" id="loginId" required></div>
+            <div class="form-group" style="text-align: left;"><label>Password</label><input type="password" id="loginPass" required></div>
+            <button type="submit" style="width: 100%; padding: 12px; cursor: pointer; margin-top: 10px;">LOGIN</button>
+            <p id="errorMsg" style="color: #ef4444; font-size: 12px; margin-top: 15px;"></p>
+        </form>
+        <p style="font-size: 13px; color: var(--text-muted); margin-top: 20px;">Don't have an account? <a href="/register.html" style="color: #10b981; text-decoration: none;">Register</a></p>
+    </div>
+    <script>
+        async function handleLogin(e) {
+            e.preventDefault();
+            const res = await fetch('/api/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ identifier: document.getElementById('loginId').value, password: document.getElementById('loginPass').value })
+            });
+            const data = await res.json();
+            if (data.success) { localStorage.setItem('hq_user', JSON.stringify(data.user)); window.location.href = '/index.html'; }
+            else { document.getElementById('errorMsg').innerText = data.message; }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Dashboard - HQ Cloud</title>
+    <link rel="icon" type="image/png" href="/logo.png">
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <header>
+        <div class="header-left">
+            <a href="/" class="logo-area" style="display: flex; align-items: center; gap: 8px;">
+                <img src="/logo.png" alt="Logo" style="height: 28px; width: auto;">
+                HQ CLOUD <span style="font-size: 10px; background: #10b981; color: #000; padding: 2px 6px; border-radius: 4px; margin-left: 6px;">ADMIN</span>
+            </a>
+            <nav><a href="/">Home View</a></nav>
+        </div>
+        <div class="header-right"><button onclick="logout()" class="btn-login" style="background: #ef4444; border: none; cursor: pointer; color: #fff;">LOGOUT</button></div>
+    </header>
+    <div class="container">
+        <div class="hero-section"><div class="hero-badge">Management Dashboard</div><h1>Hosting Plan <span>Manager</span></h1></div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; align-items: start;">
+            <div class="card" style="padding: 30px;">
+                <h3 style="margin-top: 0; margin-bottom: 20px;">Add New Hosting Plan</h3>
+                <form onsubmit="handleAddPlan(event)">
+                    <div class="form-group"><label>Category</label><select id="planCategory" class="currency-select-box" style="width: 100%;"><option value="minecraft">Minecraft</option><option value="discord_bot">Discord Bot</option><option value="vps">VPS</option><option value="free_bot_hosting">Free Bot Hosting</option></select></div>
+                    <div class="form-group"><label>Title</label><input type="text" id="planTitle" required></div>
+                    <div class="form-group"><label>Subtitle</label><input type="text" id="planSubtitle" required></div>
+                    <div class="form-group"><label>Price in INR (₹)</label><input type="number" id="planPrice" required></div>
+                    <div class="form-group"><label>Badge (Optional)</label><input type="text" id="planBadge" placeholder="POPULAR"></div>
+                    <div class="form-group"><label>RAM</label><input type="text" id="planRam" required></div>
+                    <div class="form-group"><label>Storage</label><input type="text" id="planStorage" required></div>
+                    <div class="form-group"><label>vCPU</label><input type="text" id="planVcpu" required></div>
+                    <button type="submit" style="width: 100%; margin-top: 10px;">ADD PLAN</button>
+                    <p id="adminMsg" style="color: #10b981; font-size: 12px; margin-top: 10px; text-align: center;"></p>
+                </form>
+            </div>
+            <div class="card" style="padding: 30px;"><h3 style="margin-top: 0; margin-bottom: 20px;">Existing Plans</h3><div id="adminPlansList" style="display: flex; flex-direction: column; gap: 12px; max-height: 500px; overflow-y: auto;"></div></div>
+        </div>
+    </div>
+    <script>
+        let siteData = null;
+        async function loadAdminData() {
+            const user = localStorage.getItem('hq_user');
+            if (!user || JSON.parse(user).role !== 'admin') { alert('Access denied.'); window.location.href = '/index.html'; return; }
+            const res = await fetch('/api/data');
+            siteData = await res.json();
+            renderAdminPlans();
+        }
+        function renderAdminPlans() {
+            const container = document.getElementById('adminPlansList');
+            container.innerHTML = '';
+            for (const [category, plans] of Object.entries(siteData.hosting_plans)) {
+                plans.forEach((plan, index) => {
+                    container.innerHTML += `<div style="background: #05070a; border: 1px solid var(--border-color); padding: 12px 16px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center;"><div><div style="font-weight: 700; font-size: 13px;">${plan.title} <span style="color: var(--text-muted); font-size: 11px;">[${category}]</span></div><div style="font-size: 11px; color: var(--text-muted);">₹${plan.price_inr}/mo</div></div><button onclick="deletePlan('${category}', ${index})" style="background: #ef4444; border: none; color: #fff; padding: 6px 10px; border-radius: 6px; font-size: 11px; cursor: pointer;">DELETE</button></div>`;
+                });
+            }
+        }
+        async function handleAddPlan(e) {
+            e.preventDefault();
+            const res = await fetch('/api/admin/plans', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ category: document.getElementById('planCategory').value, title: document.getElementById('planTitle').value, subtitle: document.getElementById('planSubtitle').value, price_inr: document.getElementById('planPrice').value, badge: document.getElementById('planBadge').value, ram: document.getElementById('planRam').value, storage: document.getElementById('planStorage').value, vcpu: document.getElementById('planVcpu').value })
+            });
+            const data = await res.json();
+            if (data.success) { siteData = data.siteData; document.getElementById('adminMsg').innerText = 'Plan added successfully!'; renderAdminPlans(); e.target.reset(); setTimeout(() => document.getElementById('adminMsg').innerText = '', 3000); }
+        }
+        async function deletePlan(category, index) {
+            if (!confirm('Delete this plan?')) return;
+            const res = await fetch(`/api/admin/plans/${category}/${index}`, { method: 'DELETE' });
+            const data = await res.json();
+            if (data.success) { siteData = data.siteData; renderAdminPlans(); }
+        }
+        function logout() { localStorage.removeItem('hq_user'); window.location.href = '/index.html'; }
+        loadAdminData();
+    </script>
+</body>
+</html>
