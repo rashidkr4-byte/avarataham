@@ -15,7 +15,7 @@
         .profile-dropdown:hover .dropdown-menu { display: block; }
         
         .plans-grid { grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)) !important; gap: 28px !important; margin-top: 30px; }
-        .card { padding: 36px !important; border-radius: 14px !important; background: linear-gradient(145deg, #0c1017 0%, #080c12 100%) !important; box-shadow: 0 10px 30px rgba(0,0,0,0.4); }
+        .card { padding: 36px !important; border-radius: 14px !important; background: linear-gradient(145deg, #0c1017 0%, #080c12 100%) !important; box-shadow: 0 10px 30px rgba(0,0,0,0.4); position: relative; }
         
         .order-btn { padding: 14px !important; font-size: 13px !important; font-weight: 800 !important; border-radius: 8px !important; text-transform: uppercase; cursor: pointer; border: none; width: 100%; background: var(--card-bg); border: 1px solid var(--border-color); color: var(--text-main); transition: 0.2s; text-align: center; display: block; text-decoration: none; }
         .order-btn:hover { border-color: var(--accent); color: var(--accent); }
@@ -36,7 +36,7 @@
         .auth-container { max-width: 420px; margin: 40px auto; background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 14px; padding: 36px; }
         .form-group { margin-bottom: 20px; text-align: left; }
         .form-group label { display: block; font-size: 12px; font-weight: 700; text-transform: uppercase; color: var(--text-muted); margin-bottom: 8px; }
-        .form-group input, .form-group textarea { width: 100%; padding: 12px; background: #05070a; border: 1px solid var(--border-color); border-radius: 8px; color: #fff; font-size: 13px; outline: none; }
+        .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 12px; background: #05070a; border: 1px solid var(--border-color); border-radius: 8px; color: #fff; font-size: 13px; outline: none; }
         .auth-btn { width: 100%; padding: 14px; background: var(--accent); color: #000; border: none; border-radius: 8px; font-weight: 800; font-size: 13px; text-transform: uppercase; cursor: pointer; }
     </style>
 </head>
@@ -111,15 +111,16 @@
 
         <!-- ADMIN PANEL VIEW -->
         <div id="adminView" class="view-section">
-            <div class="card" style="width: 100%; max-width: 800px; margin: 0 auto;">
+            <div class="card" style="width: 100%; max-width: 900px; margin: 0 auto;">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
                     <div>
-                        <div style="font-size: 22px; font-weight: 800;">Admin Control Panel</div>
+                        <div style="font-size: 22px; font-weight: 800;">Admin Plan & System Manager</div>
                         <div style="font-size: 13px; color: var(--text-muted);">Authorized as entothic@gmail.com</div>
                     </div>
                     <button onclick="switchView('dashboard', 'minecraft')" class="create-key-btn" style="background: transparent; border: 1px solid var(--border-color); color: #fff;">Back to Site</button>
                 </div>
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px;">
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 30px;">
                     <div style="background: #05070a; padding: 20px; border-radius: 8px; border: 1px solid var(--border-color);">
                         <div style="font-size: 11px; color: var(--text-muted); text-transform: uppercase;">Total Users</div>
                         <div id="adminStatUsers" style="font-size: 24px; font-weight: 800; color: var(--accent); margin-top: 5px;">0</div>
@@ -129,11 +130,34 @@
                         <div id="adminStatKeys" style="font-size: 24px; font-weight: 800; color: var(--accent); margin-top: 5px;">0</div>
                     </div>
                 </div>
-                <div class="form-group">
+
+                <div style="border-top: 1px solid var(--border-color); padding-top: 25px; margin-bottom: 30px;">
+                    <div style="font-size: 18px; font-weight: 800; margin-bottom: 15px;">➕ Add New Plan or Model</div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                        <div class="form-group">
+                            <label>Category</label>
+                            <select id="newPlanCategory">
+                                <option value="minecraft">Minecraft</option>
+                                <option value="discord_bot">Discord Bot</option>
+                                <option value="vps">VPS</option>
+                                <option value="free_bot_hosting">Free Bot Hosting</option>
+                                <option value="ai_models">AI Models</option>
+                            </select>
+                        </div>
+                        <div class="form-group"><label>Plan Title</label><input type="text" id="newPlanTitle" placeholder="Diamond Plan"></div>
+                        <div class="form-group"><label>Subtitle / Description</label><input type="text" id="newPlanSub" placeholder="Ultimate performance tier"></div>
+                        <div class="form-group"><label>Price in INR (₹)</label><input type="number" id="newPlanPrice" placeholder="999"></div>
+                        <div class="form-group"><label>Badge (e.g. POPULAR)</label><input type="text" id="newPlanBadge" placeholder="POPULAR"></div>
+                        <div class="form-group"><label>Specs (Label:Value pairs comma separated)</label><input type="text" id="newPlanSpecs" placeholder="RAM:16 GB, vCPU:8 Core"></div>
+                    </div>
+                    <button onclick="adminAddPlan()" class="create-key-btn" style="width: 100%; padding: 14px; margin-top: 10px;">Add Plan to Website</button>
+                </div>
+
+                <div class="form-group" style="border-top: 1px solid var(--border-color); padding-top: 25px;">
                     <label>Global Announcement Banner</label>
                     <textarea id="adminNoticeInput" rows="3" placeholder="Write global notice message here..."></textarea>
+                    <button onclick="saveAdminNotice()" class="create-key-btn" style="width: 100%; padding: 14px; margin-top: 15px;">Save Announcement</button>
                 </div>
-                <button onclick="saveAdminNotice()" class="create-key-btn" style="width: 100%; padding: 14px;">Save Notice</button>
             </div>
         </div>
     </div>
@@ -164,7 +188,7 @@
         let currentCurrency = 'INR';
         let currentCategory = 'minecraft';
 
-        const siteData = {
+        const defaultSiteData = {
             currency_rates: {
                 INR: { symbol: '₹', rate: 83 },
                 USD: { symbol: '$', rate: 1 },
@@ -172,24 +196,32 @@
             },
             hosting_plans: {
                 minecraft: [
-                    { title: 'Iron Plan', subtitle: 'Great for small communities', price_inr: 399, badge: 'POPULAR', specs: [{label:'RAM', value:'4 GB'}, {label:'CPU', value:'2 vCPU'}, {label:'Storage', value:'40 GB NVMe'}] },
-                    { title: 'Gold Plan', subtitle: 'For active public servers', price_inr: 799, badge: 'BEST VALUE', specs: [{label:'RAM', value:'8 GB'}, {label:'CPU', value:'4 vCPU'}, {label:'Storage', value:'80 GB NVMe'}] }
+                    { id: 1, title: 'Iron Plan', subtitle: 'Great for small communities', price_inr: 399, badge: 'POPULAR', specs: [{label:'RAM', value:'4 GB'}, {label:'CPU', value:'2 vCPU'}, {label:'Storage', value:'40 GB NVMe'}] },
+                    { id: 2, title: 'Gold Plan', subtitle: 'For active public servers', price_inr: 799, badge: 'BEST VALUE', specs: [{label:'RAM', value:'8 GB'}, {label:'CPU', value:'4 vCPU'}, {label:'Storage', value:'80 GB NVMe'}] }
                 ],
                 discord_bot: [
-                    { title: 'Bot Starter', subtitle: 'Always online execution', price_inr: 149, badge: 'LIGHTWEIGHT', specs: [{label:'RAM', value:'512 MB'}, {label:'Uptime', value:'99.9%'}, {label:'Storage', value:'5 GB'}] }
+                    { id: 3, title: 'Bot Starter', subtitle: 'Always online execution', price_inr: 149, badge: 'LIGHTWEIGHT', specs: [{label:'RAM', value:'512 MB'}, {label:'Uptime', value:'99.9%'}, {label:'Storage', value:'5 GB'}] }
                 ],
                 vps: [
-                    { title: 'Cloud VPS 1', subtitle: 'Full root access control', price_inr: 599, badge: 'PERFORMANCE', specs: [{label:'RAM', value:'2 GB'}, {label:'vCPU', value:'1 Core'}, {label:'NVMe', value:'50 GB'}] }
+                    { id: 4, title: 'Cloud VPS 1', subtitle: 'Full root access control', price_inr: 599, badge: 'PERFORMANCE', specs: [{label:'RAM', value:'2 GB'}, {label:'vCPU', value:'1 Core'}, {label:'NVMe', value:'50 GB'}] }
                 ],
                 free_bot_hosting: [
-                    { title: 'Free Tier', subtitle: 'Community bot hosting', price_inr: 0, badge: 'FREE', specs: [{label:'RAM', value:'256 MB'}, {label:'Cost', value:'$0 / mo'}, {label:'Uptime', value:'Standard'}] }
+                    { id: 5, title: 'Free Tier', subtitle: 'Community bot hosting', price_inr: 0, badge: 'FREE', specs: [{label:'RAM', value:'256 MB'}, {label:'Cost', value:'$0 / mo'}, {label:'Uptime', value:'Standard'}] }
                 ],
                 ai_models: [
-                    { title: 'HQ-LLM Ultra 70B', subtitle: 'Advanced open reasoning model', price_inr: 799, badge: 'POPULAR', specs: [{label:'Context', value:'128k'}, {label:'Speed', value:'140 tok/s'}] },
-                    { title: 'HQ-Coder Pro 32B', subtitle: 'Specialized code generation', price_inr: 499, badge: 'FAST', specs: [{label:'Context', value:'64k'}, {label:'Accuracy', value:'94.8%'}] }
+                    { id: 6, title: 'HQ-LLM Ultra 70B', subtitle: 'Advanced open reasoning model', price_inr: 799, badge: 'POPULAR', specs: [{label:'Context', value:'128k'}, {label:'Speed', value:'140 tok/s'}] }
                 ]
             }
         };
+
+        function getStoredData() {
+            const data = localStorage.getItem('hq_site_data');
+            if (!data) {
+                localStorage.setItem('hq_site_data', JSON.stringify(defaultSiteData));
+                return defaultSiteData;
+            }
+            return JSON.parse(data);
+        }
 
         function initApp() {
             checkAuthUI();
@@ -285,8 +317,10 @@
             document.getElementById('heroTitle').innerHTML = `${info.title}<br><span>${info.sub}</span>`;
             document.getElementById('heroDesc').innerText = info.desc || '';
 
+            const siteData = getStoredData();
             const plans = siteData.hosting_plans[category] || [];
             const curr = siteData.currency_rates[currentCurrency];
+            const isAdmin = JSON.parse(localStorage.getItem('hq_user') || '{}').email === 'entothic@gmail.com';
 
             plans.forEach(plan => {
                 const price = Math.round(plan.price_inr * curr.rate);
@@ -309,6 +343,7 @@
                             <div style="font-size:11px; color:var(--text-muted); text-transform:uppercase; font-weight:700;">Starting at</div>
                             <div style="font-size:22px; font-weight:900; margin-bottom:15px;">${curr.symbol}${price}<span style="font-size:12px; color:var(--text-muted); font-weight:400;">/mo</span></div>
                             <button onclick="handleDeploy('${category}')" class="order-btn">${category === 'ai_models' ? 'Get API Key' : 'Deploy Now'}</button>
+                            ${isAdmin ? `<button onclick="adminDeletePlan('${category}', ${plan.id})" style="background:rgba(239,68,68,0.1); color:#ef4444; border:1px solid #ef4444; width:100%; margin-top:8px; padding:8px; border-radius:6px; cursor:pointer; font-weight:700;">Delete Plan (Admin)</button>` : ''}
                         </div>
                     </div>
                 `;
@@ -423,6 +458,54 @@
             const keys = JSON.parse(localStorage.getItem('hq_api_keys') || '[]');
             document.getElementById('adminStatKeys').innerText = keys.length;
             document.getElementById('adminNoticeInput').value = localStorage.getItem('hq_announcement') || '';
+        }
+
+        function adminAddPlan() {
+            const category = document.getElementById('newPlanCategory').value;
+            const title = document.getElementById('newPlanTitle').value.trim();
+            const subtitle = document.getElementById('newPlanSub').value.trim();
+            const price_inr = parseFloat(document.getElementById('newPlanPrice').value) || 0;
+            const badge = document.getElementById('newPlanBadge').value.trim().toUpperCase();
+            const specsRaw = document.getElementById('newPlanSpecs').value.trim();
+
+            if (!title) {
+                alert('Please enter a plan title.');
+                return;
+            }
+
+            const specs = [];
+            if (specsRaw) {
+                specsRaw.split(',').forEach(pair => {
+                    const parts = pair.split(':');
+                    if (parts.length === 2) {
+                        specs.push({ label: parts[0].trim(), value: parts[1].trim() });
+                    }
+                });
+            }
+
+            const siteData = getStoredData();
+            if (!siteData.hosting_plans[category]) siteData.hosting_plans[category] = [];
+
+            const newPlan = { id: Date.now(), title, subtitle, price_inr, badge, specs };
+            siteData.hosting_plans[category].push(newPlan);
+            localStorage.setItem('hq_site_data', JSON.stringify(siteData));
+
+            alert('Plan added successfully!');
+            document.getElementById('newPlanTitle').value = '';
+            document.getElementById('newPlanSub').value = '';
+            document.getElementById('newPlanPrice').value = '';
+            document.getElementById('newPlanBadge').value = '';
+            document.getElementById('newPlanSpecs').value = '';
+            switchView('dashboard', category);
+        }
+
+        function adminDeletePlan(category, id) {
+            if (confirm('Are you sure you want to delete this plan?')) {
+                const siteData = getStoredData();
+                siteData.hosting_plans[category] = siteData.hosting_plans[category].filter(p => p.id !== id);
+                localStorage.setItem('hq_site_data', JSON.stringify(siteData));
+                switchCategory(category);
+            }
         }
 
         function saveAdminNotice() {
